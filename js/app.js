@@ -6,7 +6,19 @@
     playSection.classList.remove('hidden');
 } */
 
+function continueGame() {
+    const alphabet = getRandomAlphabet();
+    // console.log('your alphabet is ' + alphabet);
+
+    const currentAlphabet = document.getElementById('currentAlphabet');
+    currentAlphabet.innerText = alphabet;
+
+    addBgColorById(alphabet);
+    removeBgColorById(alphabet);
+}
+
 function play() {
     hideElementById('home');
-    showElementById('playGround')
+    showElementById('playGround');
+    continueGame();
 }
