@@ -1,14 +1,9 @@
-/* function play() {
-    const homeSection = document.getElementById('home');
-    homeSection.classList.add('hidden');
-
-    const playSection = document.getElementById('playGround');
-    playSection.classList.remove('hidden');
-} */
-
 function handleKeyPress(event) {
     const userPressed = event.key;
-    console.log(userPressed);
+
+    if(userPressed === 'Escape') {
+        gameOver();
+    }
 
     const currentAlphabetElement = document.getElementById('currentAlphabet');
     const currentAlp = currentAlphabetElement.innerText;
@@ -16,12 +11,25 @@ function handleKeyPress(event) {
     console.log(userPressed, expectedAlp);
 
     if(userPressed === expectedAlp) {
-        console.log('point');
+        const currentScore = getCommonValue('currentScore');
+
+        const newScore = currentScore + 1;
+        // currentScoreEle.innerText = newScore;
+        setCommonValue('currentScore', newScore);
+
         removeBgColorById(expectedAlp);
         continueGame();
     }
     else {
-        console.log('lose point');
+        const currentLife = getCommonValue('currentLife');
+
+        const newLife = currentLife - 1;
+        // currentLifeEle.innerText = newLife;
+        setCommonValue('currentLife', newLife);
+
+        if(newLife === 0) {
+            gameOver();
+        }
     }
 }
 
@@ -29,7 +37,6 @@ document.addEventListener('keyup', handleKeyPress);
 
 function continueGame() {
     const alphabet = getRandomAlphabet();
-    // console.log('your alphabet is ' + alphabet);
 
     const currentAlphabet = document.getElementById('currentAlphabet');
     currentAlphabet.innerText = alphabet;
@@ -40,7 +47,22 @@ function continueGame() {
 
 function play() {
     hideElementById('home');
+    hideElementById('finalScore')
     showElementById('playGround');
+
+    setCommonValue('currentLife', 5);
+    setCommonValue('currentScore', 0);
     continueGame();
 }
-//28-4
+
+function gameOver() {
+    hideElementById('playGround');
+    showElementById('finalScore');
+
+    const lastScore = getCommonValue('currentScore');
+    setCommonValue('gameScore', lastScore);
+
+    //to clear alphabet
+    const currentAlphabet = getElementText('currentAlphabet');
+    removeBgColorById(currentAlphabet);
+}
